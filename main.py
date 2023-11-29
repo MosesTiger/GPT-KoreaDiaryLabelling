@@ -14,10 +14,10 @@ parser = argparse.ArgumentParser()
 parser = argparse.ArgumentParser(description='nlp final project')
 parser.add_argument('--epoch', default=20, type=int, help='epochs')
 
-parser.add_argument('--batch-size', default=4, type=int, help='batch size')
+parser.add_argument('--batch-size', default=16, type=int, help='batch size')
 parser.add_argument('--optim', default='Adam', type=str, help='SGD, Adam, AdamW')
 parser.add_argument('--lr', default=0.001, type=float, help='learning rate')
-parser.add_argument('--model-size', default='large', type=str, help='base, small, large')
+parser.add_argument('--model-size', default='base', type=str, help='base, small, large')
 
 parser.add_argument('--data-path', default='data/gpt_labeled_diary.json', type=str, help='data path')
 parser.add_argument('--model-save-path', default='ckpt', type=str, help='model save path')

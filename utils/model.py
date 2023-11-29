@@ -31,7 +31,7 @@ class WeekChallenge(nn.Module):
             token_sequence = self.tokenizer(x,return_tensors="pt", padding=True)
 
             if self.args["use_cuda"]:
-                token_sequence = {key: value.to('cuda') for key, value in token_sequence.items()}
+                token_sequence.to("cuda")
             
             repre = self.embed(**token_sequence)
         
