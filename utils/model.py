@@ -73,7 +73,7 @@ class BaseRegressor(nn.Module):
 class LargeRegressor(nn.Module):
     
     def __init__(self):
-        super(BaseRegressor, self).__init__()
+        super(LargeRegressor, self).__init__()
         self.regressor = nn.Sequential(OrderedDict([
             ('linear1', nn.Linear(768, 512)),
             ('silu1', nn.SiLU()),
