@@ -14,8 +14,8 @@ parser = argparse.ArgumentParser()
 parser = argparse.ArgumentParser(description='nlp final project')
 parser.add_argument('--epoch', default=20, type=int, help='epochs')
 
-parser.add_argument('--batch-size', default=8, type=int, help='batch size')
-parser.add_argument('--optim', default='SGD', type=str, help='SGD, Adam, AdamW')
+parser.add_argument('--batch-size', default=4, type=int, help='batch size')
+parser.add_argument('--optim', default='Adam', type=str, help='SGD, Adam, AdamW')
 parser.add_argument('--lr', default=0.001, type=float, help='learning rate')
 parser.add_argument('--model-size', default='large', type=str, help='base, small, large')
 
@@ -55,11 +55,20 @@ if __name__ == "__main__":
 
     print("get optimizer", args.optim)
     if args.optim == "SGD":
-        optimizer = torch.optim.SGD(mynet.parameters(), lr=args.lr)
+        optimizer = torch.optim.SGD(mynet.parameters(), lr=args.lr,
+                                    momentum=0.9, weight_decay=1e-4)
     elif args.optim == "Adam":
-        optimizer = torch.optim.Adam(mynet.parameters(), lr=args.lr)
+        optimizer = torch.optim.Adam(mynet.parameters(), 
+                                     lr=args.lr,
+                                     weight_decay=1e-4,
+                                     betas=(0.9, 0.999),
+                                     eps=1e-8,)
     elif args.optim == "AdamW":
-        optimizer = torch.optim.AdamW(mynet.parameters(), lr=args.lr)
+        optimizer = torch.optim.AdamW(mynet.parameters(),
+                                      lr=args.lr,
+                                      weight_decay=1e-4,
+                                      betas=(0.9, 0.999),
+                                      eps=1e-8,)
     
     criterion = torch.nn.MSELoss()
 
