@@ -1,3 +1,4 @@
 ckpt/*
 loss_history/*
 utils/__pycache__
+gpu2.sh

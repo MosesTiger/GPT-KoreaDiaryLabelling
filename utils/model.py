@@ -33,7 +33,7 @@ class WeekChallenge(nn.Module):
             if self.args["use_cuda"]:
                 token_sequence.to("cuda")
             
-            repre = self.embed(**token_sequence)
+            repre = self.embed(**token_sequence).detach()
         
         x1 = repre[0][:,0:1,:].squeeze(1)
         x1 = self.regressor(x1)

@@ -12,12 +12,12 @@ from utils.model import WeekChallenge
 parser = argparse.ArgumentParser()
 
 parser = argparse.ArgumentParser(description='nlp final project')
-parser.add_argument('--epoch', default=20, type=int, help='epochs')
+parser.add_argument('--epoch', default=10, type=int, help='epochs')
 
-parser.add_argument('--batch-size', default=16, type=int, help='batch size')
-parser.add_argument('--optim', default='Adam', type=str, help='SGD, Adam, AdamW')
-parser.add_argument('--lr', default=0.001, type=float, help='learning rate')
-parser.add_argument('--model-size', default='base', type=str, help='base, small, large')
+parser.add_argument('--batch-size', default=4, type=int, help='batch size')
+parser.add_argument('--optim', default='SGD', type=str, help='SGD, Adam, AdamW')
+parser.add_argument('--lr', default=1e-2, type=float, help='learning rate')
+parser.add_argument('--model-size', default='large', type=str, help='base, small, large')
 
 parser.add_argument('--data-path', default='data/gpt_labeled_diary.json', type=str, help='data path')
 parser.add_argument('--model-save-path', default='ckpt', type=str, help='model save path')
@@ -55,16 +55,16 @@ if __name__ == "__main__":
 
     print("get optimizer", args.optim)
     if args.optim == "SGD":
-        optimizer = torch.optim.SGD(mynet.parameters(), lr=args.lr,
+        optimizer = torch.optim.SGD(mynet.regressor.parameters(), lr=args.lr,
                                     momentum=0.9, weight_decay=1e-4)
     elif args.optim == "Adam":
-        optimizer = torch.optim.Adam(mynet.parameters(), 
+        optimizer = torch.optim.Adam(mynet.regressor.parameters(), 
                                      lr=args.lr,
                                      weight_decay=1e-4,
                                      betas=(0.9, 0.999),
                                      eps=1e-8,)
     elif args.optim == "AdamW":
-        optimizer = torch.optim.AdamW(mynet.parameters(),
+        optimizer = torch.optim.AdamW(mynet.regressor.parameters(),
                                       lr=args.lr,
                                       weight_decay=1e-4,
                                       betas=(0.9, 0.999),
@@ -91,7 +91,7 @@ if __name__ == "__main__":
             loss.backward()
             optimizer.step()
 
-            diff_sum += torch.sum(torch.abs(outputs-labels), dim=0)
+            diff_sum += torch.sum(torch.abs(outputs-labels), dim=0).detach()
             if idx % args.log_interval == 0:
                 if idx != 0:
                     processed = idx*args.batch_size
