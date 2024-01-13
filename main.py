@@ -25,7 +25,6 @@ parser.add_argument('--loss-save-path', default='loss_history', type=str, help='
 parser.add_argument('--log-interval', default=10, type=int, help='log interval')
 parser.add_argument('--set-seed', default=True, type=bool, help='set seed')
 parser.add_argument('--seed', default=0, type=int, help='seed')
-
 parser.add_argument('--use-cuda', default=True, type=bool, help='use cuda')
 
 args = parser.parse_args()
